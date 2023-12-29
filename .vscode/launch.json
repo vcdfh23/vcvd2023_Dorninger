@@ -11,7 +11,12 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "args" : ["plot_example.pdf"]
+      "args" : ["plot_example.pdf",
+                "10",
+                "28",
+                "concrete",
+                "dry",
+                "0"]
     }
   ]
 }

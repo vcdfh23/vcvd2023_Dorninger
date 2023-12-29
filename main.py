@@ -17,24 +17,21 @@ ice_wet = 0.08
 gravel_dry = 0.35
 sand_dry = 0.3
 
-#setup arg parser
-arg_parser_ = argparse.ArgumentParser(description="Process some integers.")
-arg_parser_.add_argument("pdf_file_out", type=str, help="filename to plot")
-cmd_call_args_ = arg_parser_.parse_args()
-print (cmd_call_args_.pdf_file_out)
-
 
 ### parameter parser for: mass, velocity, road type, wet&dry, inclination
 parameter_parser = argparse.ArgumentParser(description='Variance Parameter for calculation')
-parameter_parser.add_argument('mass',type=float,default=0,help='Mass of the vehicle.')
-parameter_parser.add_argument('velocity',type=float,default=28,help='Velocity of the vehicle.')
-parameter_parser.add_argument('road_type',type=str,default='concrete',choices = ['concrete','ice','gravel','sand'],help='Road type')
-parameter_parser.add_argument('road_condition',type=str,default='dry',choices = ['dry','wet'],help='Road condition wet or dry.')
-parameter_parser.add_argument('inclination',type=int,default=0,help='Road inclination optional.')
-#param_pars_args = parameter_parser.parse_args() # ERROR in this line!
+parameter_parser.add_argument("pdf_file_out", type=str, help="filename to plot")
+parameter_parser.add_argument('mass',type=str,default=0,help='Mass of the vehicle.')
+parameter_parser.add_argument('velocity',type=str,default=28,help='Velocity of the vehicle.')
+parameter_parser.add_argument('road_type',type=str,default='concrete',help='Road type') #,choices = ['concrete','ice','gravel','sand'],
+parameter_parser.add_argument('road_condition',type=str,default='dry',help='Road condition wet or dry.')#choices = ['dry','wet'],
+parameter_parser.add_argument('inclination',type=str,default=0,help='Road inclination optional.')
+param_pars_args = parameter_parser.parse_args() 
 
-#ToDO: Fix param_pars_args and change function values in method calc_decelleration
-def calc_decelleration(mass=10, velocity=28, road_type='concrete', road_condition='dry', inclination=0):
+print (param_pars_args.pdf_file_out)
+
+def calc_decelleration(mass=param_pars_args.mass, velocity=float(param_pars_args.velocity), road_type=param_pars_args.road_type
+                       , road_condition=param_pars_args.road_condition, inclination=float(param_pars_args.inclination)):
   
   if road_type == 'concrete' and 'dry':
     road_µ = concrete_dry
@@ -73,7 +70,7 @@ def main_method():
   ###
   ### Code from Prof. Altinger
   main_method.__doc__ = "sample main method"
-  exec_sample_plot_(cmd_call_args_.pdf_file_out)
+  exec_sample_plot_(param_pars_args.pdf_file_out)
 
 #===============
 # do work and call a methode
