@@ -11,7 +11,21 @@ import numpy as np
 
 
 def plot_correct_calc(calc_v, calc_s,t_vector):
-  fig1 = plt.figure()
+  fig,ax = plt.subplots(1,2,figsize=(10,5))
+
+  ax[0].plot(t_vector,calc_v)
+  ax[0].set_xlabel("time")
+  ax[0].set_ylabel("velocity [m/s]")
+  ax[0].set_title("Velocity reduction\n\n", fontweight ="bold")
+
+  ax[1].plot(t_vector,calc_s)
+  ax[1].set_xlabel("time")
+  ax[1].set_ylabel("Distance [m]")
+  ax[1].set_title("Distance \n\n", fontweight ="bold")
+
+  plt.savefig("test.pdf")
+
+  """ fig1 = plt.figure()
   #add one plot
   ax1 = fig1.add_subplot(111)
   
@@ -41,7 +55,7 @@ def plot_correct_calc(calc_v, calc_s,t_vector):
   fig2.suptitle("Breaking distance\n\n", fontweight ="bold")  
   plt.savefig('breaking_distance.png')
 
-
+ """
 
 
   #fig.hold()

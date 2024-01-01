@@ -41,9 +41,16 @@ def rule_of_thumb(velocity= float(param_pars_args.velocity)):
   sstop = snormal + sreaction
   sstop_danger = sdanger + sreaction
 
+  #Time calculation and vector-generation
+  t_sstop_danger = sstop_danger / velocity
+  t_sstop = sstop / velocity
+  t_sstop_danger_vector = np.arange(0,t_sstop_danger+0.1,0.1)
+  t_sstop_vector = np.arange(0,t_sstop+0.1,0.1)
+
+
   #print(sstop)
   #print(sstop_danger)
-  return(sstop,sstop_danger)
+  return(sstop,sstop_danger,t_sstop_vector,t_sstop_danger_vector)
 #Proper Calculation 
 def calc_decelleration(mass=param_pars_args.mass, velocity=float(param_pars_args.velocity), road_type=param_pars_args.road_type
                        , road_condition=param_pars_args.road_condition, inclination=float(param_pars_args.inclination)):
