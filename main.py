@@ -7,7 +7,7 @@ from scipy.constants import g
 import numpy as np
 
 #own modules
-from examples.plot_example import exec_sample_plot_,plot_correct_calc
+from examples.plot_example import plot_calculation
 
 #Fricition coefficents from Powerpoint (constants)
 concrete_dry = 0.5
@@ -28,33 +28,35 @@ parameter_parser.add_argument('road_condition',type=str,default='dry',help='Road
 parameter_parser.add_argument('inclination',type=str,default=0,help='Road inclination optional.')
 param_pars_args = parameter_parser.parse_args() 
 
-print (param_pars_args.pdf_file_out)
 
-#Rule of Thumb Calculation:
-#ToDo: Calculate time for sstop and sstop_danger
-#      Plot them and give them to the pdf Report
+# Rule of Thumb Calculation:
+# Calculate time for sstop and sstop_danger
+
 def rule_of_thumb(velocity= float(param_pars_args.velocity)):
-  velocity = velocity*3.6 # conversion from m/s in km/h needed for RoT
+  kmh_to_ms = 3.6
+  velocity = velocity*kmh_to_ms # conversion from m/s in km/h needed for RoT
   snormal = (velocity/10)**2
   sdanger = snormal*0.5
   sreaction = (velocity/10)*3
   sstop = snormal + sreaction
   sstop_danger = sdanger + sreaction
+  sstop_vector = np.arange(0,sstop+0.1,0.1)
+  sstop_danger_vector = np.arange(0,sstop_danger+0.1,0.1)
 
   #Time calculation and vector-generation
-  t_sstop_danger = sstop_danger / velocity
-  t_sstop = sstop / velocity
-  t_sstop_danger_vector = np.arange(0,t_sstop_danger+0.1,0.1)
-  t_sstop_vector = np.arange(0,t_sstop+0.1,0.1)
+  t_sstop_danger = (sstop_danger_vector / (velocity/kmh_to_ms))
+  t_sstop = (sstop_vector / (velocity/kmh_to_ms))
+  
+  return(sstop_vector,sstop_danger_vector,t_sstop,t_sstop_danger)
 
-
-  #print(sstop)
-  #print(sstop_danger)
-  return(sstop,sstop_danger,t_sstop_vector,t_sstop_danger_vector)
-#Proper Calculation 
-def calc_decelleration(mass=param_pars_args.mass, velocity=float(param_pars_args.velocity), road_type=param_pars_args.road_type
+#Precise Calculation of breaking distance:
+def calc_decelleration(mass=float(param_pars_args.mass), velocity=float(param_pars_args.velocity), road_type=param_pars_args.road_type
                        , road_condition=param_pars_args.road_condition, inclination=float(param_pars_args.inclination)):
   
+  #Calculate degrees in radians:
+  #from https://numpy.org/doc/stable/reference/generated/numpy.deg2rad.html
+  inclination = np.deg2rad(inclination)
+
   if road_type == 'concrete' and 'dry':
     road_µ = concrete_dry
   elif road_type == 'concrete' and 'wet':
@@ -70,41 +72,38 @@ def calc_decelleration(mass=param_pars_args.mass, velocity=float(param_pars_args
   else: 
     print("Wrong input!")
 
-  #if inclination == 0:
-  
+  if inclination == 0:
+    accel = g*road_μ
+  else:
+    #calculation with inclination:
+    accel = g*road_μ*np.cos(inclination)+g*np.sin(inclination)
+    
   #Calculation of timevector with a=g*µ and t = v/a
-  accel = g*road_μ
   stop_time = velocity/accel
   time_vector = np.arange(0,stop_time+0.1,0.1) #from https://numpy.org/doc/stable/reference/generated/numpy.arange.html
   calc_vel_array = []
   calc_s_stop_array = []
 
   #Calculation of distance and velocity vector!
-  for i in time_vector:
-    calc_vel = velocity-accel*i
-    calc_s_stop = calc_vel*i+0.5*accel*i**2
-    
+  for t in time_vector:
+    calc_vel = velocity-accel*t
+    calc_s_stop = calc_vel*t+0.5*accel*t**2
+
     #Store all values in arrays:
     calc_vel_array.append(calc_vel)
     calc_s_stop_array.append(calc_s_stop)
-    #print(calc_vel)
-
-  #print(calc_s_stop)
+  
   return (calc_vel_array,calc_s_stop_array,time_vector)
 #===============
 # a method
 def main_method():
-  
+  sstop_vector,sstop_danger_vector,t_sstop,t_sstop_danger = rule_of_thumb()
   calc_v, calc_s,t_vector = calc_decelleration()
   ###
   ### Code from Prof. Altinger
   main_method.__doc__ = "sample main method"
-  exec_sample_plot_(param_pars_args.pdf_file_out)
-  plot_correct_calc(calc_v, calc_s,t_vector)
-  #rule_of_thumb()
-  #calc_decelleration()
-
-
+  plot_calculation(calc_v, calc_s,t_vector,sstop_vector,sstop_danger_vector,t_sstop,t_sstop_danger)
+  
 #===============
 # do work and call a methode
 main_method()
