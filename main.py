@@ -1,5 +1,10 @@
 __doc__ = "sample file for a main methode"
 
+#Run script with F5 for default values
+#Individual parameters example:
+# & C:/Users/geral/AppData/Local/Programs/Python/Python310/python.exe 
+# c:/Users/geral/VCVD/vcvd2023_Dorninger/main.py plot_example.pdf 10 25 concrete dry -10
+
 #import system libs
 import argparse
 import sys
@@ -20,14 +25,14 @@ sand_dry = 0.3
 
 ### parameter parser for: mass, velocity, road type, wet&dry, inclination
 parameter_parser = argparse.ArgumentParser(description='Variance Parameter for calculation')
-parameter_parser.add_argument("pdf_file_out", type=str, help="filename to plot")
-parameter_parser.add_argument('mass',type=str,default=0,help='Mass of the vehicle.')
-parameter_parser.add_argument('velocity',type=str,default=28,help='Velocity of the vehicle.')
-parameter_parser.add_argument('road_type',type=str,default='concrete',help='Road type') #,choices = ['concrete','ice','gravel','sand'],
-parameter_parser.add_argument('road_condition',type=str,default='dry',help='Road condition wet or dry.')#choices = ['dry','wet'],
-parameter_parser.add_argument('inclination',type=str,default=0,help='Road inclination optional.')
+print(parameter_parser.add_argument("pdf_file_out", type=str, help="filename to plot"))
+parameter_parser.add_argument('mass',type=str,help='Mass of the vehicle.')
+parameter_parser.add_argument('velocity',type=str, help='Velocity of the vehicle.')
+parameter_parser.add_argument('road_type',type=str,help='Road type') #,choices = ['concrete','ice','gravel','sand'],
+parameter_parser.add_argument('road_condition',type=str,help='Road condition wet or dry.')#choices = ['dry','wet'],
+parameter_parser.add_argument('inclination',type=str,help='Road inclination optional.')
 param_pars_args = parameter_parser.parse_args() 
-
+print(param_pars_args)
 
 # Rule of Thumb Calculation:
 # Calculate time for sstop and sstop_danger
