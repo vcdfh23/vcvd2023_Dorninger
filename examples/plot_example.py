@@ -34,5 +34,5 @@ def plot_calculation(calc_v, calc_s,t_vector,sstop_vector,sstop_danger_vector,t_
   ax[3].set_ylabel("Distance [m] (sstop_danger)")
   ax[3].set_title("sstop_danger (Rule of thumb) \n", fontweight ="bold") 
   
-  plt.savefig("Calculation.pdf")
-  print("Calculation.pdf has been built!")
+  plt.savefig("s2310710003.pdf")
+  print("s2310710003.pdf has been built!")

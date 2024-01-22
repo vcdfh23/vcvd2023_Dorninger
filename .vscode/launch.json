@@ -8,12 +8,9 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "args" : ["plot_example.pdf",
-                "10",
-                "20",
+      "args" : ["28",
                 "concrete",
                 "dry",
-                "0"
               ]
     }
   ]
