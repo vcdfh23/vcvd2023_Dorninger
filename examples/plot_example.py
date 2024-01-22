@@ -14,12 +14,10 @@ def plot_calculation(calc_v, calc_s,
                      sstop_danger_vector,
                      t_sstop,t_sstop_danger):
   fig,ax = plt.subplots(1,4,figsize=(18,5))
-
   ax[0].plot(t_vector,calc_v)
   ax[0].set_xlabel("Time [s]")
   ax[0].set_ylabel("Velocity [m/s]")
   ax[0].set_title("Velocity reduction\n", fontweight ="bold")
-
   ax[1].plot(t_vector,calc_s)
   ax[1].set_xlabel("Time [s]")
   ax[1].set_ylabel("Distance [m]")
