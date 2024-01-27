@@ -1,4 +1,5 @@
 # vcvd2023_Dorninger
+# Dorninger_Gerald_S231070003
 vehicle components and vehicle dyamics WS2023/2024
 # Run script with F5 for default values from json file
 # Individual parameters example:
